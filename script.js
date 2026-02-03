@@ -4,11 +4,28 @@ const loadingDiv = document.getElementById("loading");
 const fileInput = document.getElementById("audio");
 const fileLabel = document.getElementById("file-label");
 
+// Helper: Typewriter effect for a specific element
+function typeEffect(element, text, speed = 50) {
+    let i = 0;
+    element.innerHTML = ""; // Clear existing text
+    return new Promise((resolve) => {
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                resolve();
+            }
+        }
+        type();
+    });
+}
+
 // Show file name when selected
 fileInput.addEventListener("change", () => {
     if (fileInput.files.length > 0) {
-        fileLabel.innerText = `📄 ${fileInput.files[0].name}`;
-        fileLabel.style.color = "#00f2ff";
+        fileLabel.innerHTML = `📄 <span style="color: #00f2ff; text-shadow: 0 0 10px #00f2ff;">${fileInput.files[0].name}</span>`;
     }
 });
 
@@ -39,18 +56,23 @@ form.addEventListener("submit", async (e) => {
         const data = await response.json();
         loadingDiv.style.display = "none";
 
-        // Epic Result Display
+        // Create the card container first
         resultDiv.innerHTML = `
             <div class="result-card">
-                <h3 style="color: #7000ff">ANALYSIS COMPLETE</h3>
-                <p><strong>Identity:</strong> <span style="color: #00f2ff">${data.classification}</span></p>
-                <p><strong>Confidence:</strong> ${Math.round(data.confidence_score * 100)}%</p>
+                <h3 id="res-status" style="color: #7000ff">INITIALIZING...</h3>
+                <p><strong>Identity:</strong> <span id="res-identity" style="color: #00f2ff"></span></p>
+                <p><strong>Confidence:</strong> <span id="res-conf"></span></p>
             </div>
         `;
 
+        // Trigger the high-tech typewriter sequence
+        await typeEffect(document.getElementById("res-status"), "ANALYSIS COMPLETE");
+        await typeEffect(document.getElementById("res-identity"), data.classification);
+        await typeEffect(document.getElementById("res-conf"), `${Math.round(data.confidence_score * 100)}%`);
+
     } catch (error) {
         loadingDiv.style.display = "none";
-        resultDiv.innerHTML = "<p style='color:#ff4444'>CRITICAL ERROR: Connection Terminated</p>";
+        resultDiv.innerHTML = "<p style='color:#ff4444; font-weight:bold;'>CRITICAL ERROR: Connection Terminated</p>";
         console.error(error);
     }
 });

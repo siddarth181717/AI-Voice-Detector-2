@@ -12,24 +12,24 @@
     <h1>VOICE-AI SENTINEL</h1>
 
     <form id="uploadForm">
-        <div class="upload-box" onclick="document.getElementById('audio').click()">
-            <label for="audio" id="file-label">⚡ Drop Audio or Click to Upload</label>
-            <input type="file" id="audio" accept=".mp3,.wav" required class="hidden-input" title="Upload audio file">
-        </div>
+        <label class="upload-box" for="audio">
+            <span id="file-label">⚡ DROP AUDIO OR CLICK TO UPLOAD</span>
+            <input type="file" id="audio" accept=".mp3,.wav" required class="hidden-input">
+        </label>
         
         <label for="language" id="language-label">Select Language:</label>
         <select id="language" aria-labelledby="language-label">
-            <option value="English">System: English</option>
-            <option value="Hindi">System: Hindi</option>
-            <option value="Tamil">System: Tamil</option>
-            <option value="Telugu">System: Telugu</option>
-            <option value="Malayalam">System: Malayalam</option>
+            <option value="English">SYSTEM: ENGLISH</option>
+            <option value="Hindi">SYSTEM: HINDI</option>
+            <option value="Tamil">SYSTEM: TAMIL</option>
+            <option value="Telugu">SYSTEM: TELUGU</option>
+            <option value="Malayalam">SYSTEM: MALAYALAM</option>
         </select>
 
-        <button type="submit">Initialize Analysis</button>
+        <button type="submit">INITIALIZE ANALYSIS</button>
     </form>
 
-    <div id="loading">
+    <div id="loading" style="display:none;">
         <div class="scanner"></div>
         <p>DECODING NEURAL PATTERNS...</p>
     </div>
